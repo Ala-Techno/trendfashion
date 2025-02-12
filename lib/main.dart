@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:trendfashion/features/Product/presintation/page/productsPage.dart';
+import 'injection_container.dart' as object;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // تأكد من التهيئة هنا
+  await object.init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(useMaterial3: true),
-      home: Te(),
-    );
-  }
-}
-
-class Te extends StatelessWidget {
-  const Te({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ddk'),
-        centerTitle: true,
-        leading: Icon(Icons.dangerous),
-        backgroundColor: Colors.amber,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      body: Text('ks'),
+      home: ProductPage(),
     );
   }
 }
