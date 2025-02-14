@@ -18,7 +18,7 @@ class DataSourceURL {
   static String submit_sugessation = 'submit_sugessation';
   static String updateCompletion = 'updateCompletion';
   static String getAllSlied = 'story_by_id';
-  static String signup = 'signup';
+  static String signup = 'auth/register';
   static String login = 'login';
   static String cover = 'stories_covers/';
   static String photo = 'slides_photos/';

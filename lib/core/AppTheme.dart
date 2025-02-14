@@ -35,7 +35,8 @@ class AppTheme {
   static Color scaffoldBackgroundColor = Color(0xffFFFFFF);
   static Color scaffoldBackgroundColor2 = Color(0xffF6F9FF);
 
-  static String fontFamily = 'Alhurra';
+  static String fontFamily = '';
+  static String fontFamily2 = 'Alhurra';
 
   static TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(

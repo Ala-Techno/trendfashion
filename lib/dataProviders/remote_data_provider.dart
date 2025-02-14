@@ -305,4 +305,46 @@ class RemoteDataProvider {
       throw BarcodeNotFoundException();
     }
   }
+
+  Future<dynamic> sendJasonData({
+    required String url,
+    required Map<String, dynamic> body,
+    required dynamic retrievedDataType,
+    dynamic returnType,
+  }) async {
+    log('sendJasonData initiated');
+    log('Request URL: ${DataSourceURL.baseUrl + url}');
+    log('JSON Payload: ${body.toString()}');
+
+    final response = await client.post(
+      Uri.parse(DataSourceURL.baseUrl + url),
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer zaCELgL.Omar_abdu-Af50DDqtlx_ibrahem_Ahmed',
+      },
+      body: jsonEncode(body),
+    );
+
+    log('Response Status: ${response.statusCode}');
+    log('Response Body: ${response.body}');
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final decodedResponse = jsonDecode(response.body);
+
+      if (decodedResponse is List) {
+        return decodedResponse
+            .map((item) => retrievedDataType.fromJson(item))
+            .toList();
+      }
+
+      // Handle single object responses
+      if (decodedResponse is Map<String, dynamic>) {
+        return retrievedDataType.fromJson(decodedResponse);
+      }
+
+      return decodedResponse;
+    }
+  }
 }

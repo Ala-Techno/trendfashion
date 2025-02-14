@@ -10,6 +10,8 @@ import 'package:trendfashion/features/Product/presintation/manager/Product_bloc.
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trendfashion/features/ProductDeatils/data/repository/ProductDeatilsRepository.dart';
 import 'package:trendfashion/features/ProductDeatils/presintation/manager/ProductDeatils_bloc.dart';
+import 'package:trendfashion/features/Registration/data/repository/RegistrationRepository.dart';
+import 'package:trendfashion/features/Registration/presintation/manager/Registration_bloc.dart';
 import 'dataProviders/local_data_provider.dart';
 import 'dataProviders/network/Network_info.dart';
 import 'dataProviders/remote_data_provider.dart';
@@ -72,6 +74,7 @@ Future<void> init() async {
   // _initExtermination_blocFeature();
   _initProduct_blocFeature();
   _initProductDeatils_blocFeature();
+  _initRegistration_blocFeature();
 
   ///service provider
 
@@ -115,6 +118,20 @@ void _initCategories_blocFeature() {
   //repositories
   sl.registerLazySingleton<ProductRepository>(
     () => ProductRepository(
+      remoteDataProvider: sl(),
+      localDataProvider: sl(),
+      networkInfo: sl(),
+    ),
+  );
+}
+
+void _initRegistration_blocFeature() {
+//bloc
+  sl.registerFactory(() => Registration_bloc(repository: sl()));
+
+  //repositories
+  sl.registerLazySingleton<RegistrationRepository>(
+    () => RegistrationRepository(
       remoteDataProvider: sl(),
       localDataProvider: sl(),
       networkInfo: sl(),
