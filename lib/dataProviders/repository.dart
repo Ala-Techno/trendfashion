@@ -3,8 +3,8 @@ import 'package:dartz/dartz.dart';
 import 'error/exceptions.dart';
 import 'error/failures.dart';
 
-typedef Future<dynamic> GetDataFunction();
-typedef dynamic GetCacheDataFunction();
+typedef GetDataFunction = Future<dynamic> Function();
+typedef GetCacheDataFunction = dynamic Function();
 
 class Repository {
   Future<Either<Failure, dynamic>> sendRequest({
@@ -20,7 +20,7 @@ class Repository {
         log('try from repositories');
 
         final remoteData = await remoteFunction!();
-        log('the data from repositories is $remoteData');
+        log('theeeeeeeee data from repositories is $remoteData');
         return Right(remoteData);
       } on ServierExeption {
         return Left(ServerFailure());

@@ -21,7 +21,7 @@ class ProductDeatilsRepository extends Repository {
         checkConnection: networkInfo.isConnected,
         remoteFunction: () async {
           ProductDeatilsModel remoteData = await remoteDataProvider.getData(
-            url: DataSourceURL.getAllproducts + "/" + id,
+            url: "${DataSourceURL.getAllproducts}/$id",
             returnType: ProductDeatilsModel.init(),
             retrievedDataType: ProductDeatilsModel.init(),
           );

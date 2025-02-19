@@ -19,7 +19,7 @@ class ProductDeatilsILoaded extends ProductDeatilsState {
   ProductDeatilsILoaded({required this.productDeatilsModel});
 
   @override
-  List<Object> get props => [ProductDeatilsModel];
+  List<Object> get props => [productDeatilsModel];
 }
 
 class ProductDeatilsError extends ProductDeatilsState {

@@ -1,70 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trendfashion/core/AppTheme.dart';
 import 'package:trendfashion/core/util/ScreenUtil.dart';
+import 'package:trendfashion/core/util/app_router.dart';
 import 'package:trendfashion/core/widgets/customContainer.dart';
 import 'package:trendfashion/core/widgets/customText.dart';
 
 class Firstpage extends StatelessWidget {
+  const Firstpage({super.key});
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil screenUtil = ScreenUtil();
     screenUtil.init(context);
     return Scaffold(
-      backgroundColor: AppTheme.scaffoldBackgroundColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // Add spacing at the top (220px)
-          SizedBox(height: screenUtil.setHeight(500)),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Adding spacing at the top (220px)
+                SizedBox(height: screenUtil.screenHeight * 0.25),
 
-          // Calling the Custom Text
-          CustomcontainerIntro(),
+                // Calling the Custom Text
+                CustomcontainerIntro(),
 
-          // Spacing
-          SizedBox(height: 20),
+                // Spacing
+                SizedBox(height: 10),
 
-          // Text
-          CustomTextTitle1(
-            customText: 'Shoppe',
-            customSize: 52,
-          ),
-          CustomTextTitle2(
-            customText: 'Beautiful eCommerce UI Kit for your online store',
-            customSize: 19,
-          ),
-          // Spacing
-          SizedBox(height: 20),
-
-          // Row with Text and Circular Container
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Text
-              Text(
-                'Bottom Text',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+                // Text
+                CustomTextTitle1(
+                  customText: 'Shoppe',
+                  customSize: 52,
                 ),
-              ),
-
-              // Spacing
-              SizedBox(width: 10),
-
-              // Circular Container
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.green,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  child: CustomTextTitle2(
+                    customText:
+                        'Beautiful eCommerce UI Kit for your online store',
+                    customSize: 19,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+          SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 30,
+            ),
+            child: Column(
+              children: [
+                _buildSignUpButton(context),
+                const SizedBox(height: 20),
+                _buildLoginRow(context),
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSignUpButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 55),
+          backgroundColor: Colors.blue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 5,
+        ),
+        onPressed: () => Navigator.pushNamed(context, AppRouter.signUp),
+        child: const Text(
+          "Let's get started",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () => Navigator.pushNamed(context, AppRouter.login),
+          child: const Text('I already have an account'),
+        ),
+        IconButton(
+          icon: const Icon(Icons.account_circle),
+          color: Colors.blue,
+          onPressed: () => Navigator.pushNamed(context, AppRouter.login),
+        ),
+      ],
     );
   }
 }

@@ -19,7 +19,7 @@ class DataSourceURL {
   static String updateCompletion = 'updateCompletion';
   static String getAllSlied = 'story_by_id';
   static String signup = 'auth/register';
-  static String login = 'login';
+  static String login = 'auth/login';
   static String cover = 'stories_covers/';
   static String photo = 'slides_photos/';
   static String live_channels = 'live_channels';
@@ -39,4 +39,5 @@ class DataSourceURL {
   static String sendShare = 'total_people';
   static String countUsers = 'form/total_people/count';
   static String stories = 'form/stories';
+  static String Cursl = 'form/stories'; // Edit to cursl in postman
 }

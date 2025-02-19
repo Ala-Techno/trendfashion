@@ -11,25 +11,30 @@ part 'Product_state.dart';
 
 class Product_bloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository repository;
-  Product_bloc({required this.repository}) : super(ProductInitial());
-  @override
-  Stream<ProductState> mapEventToState(ProductEvent event) async* {
-    if (event is GetAllProduct) {
-      yield ProductLoading();
+
+  Product_bloc({required this.repository}) : super(ProductInitial()) {
+    on<GetAllProduct>(_handleGetAllProducts);
+  }
+
+  FutureOr<void> _handleGetAllProducts(
+      GetAllProduct event, Emitter<ProductState> emit) async {
+    try {
+      emit(ProductLoading());
       final failureOrData = await repository.getAllProduct();
 
-      yield* failureOrData.fold(
-        (failure) async* {
-          log('yield is error');
-          yield ProductError(errorMessage: mapFailureToMessage(failure));
+      failureOrData.fold(
+        (failure) {
+          log('Product load error: ${mapFailureToMessage(failure)}');
+          emit(ProductError(errorMessage: mapFailureToMessage(failure)));
         },
-        (data) async* {
-          log('yield is loaded');
-          yield ProductILoaded(
-            productModel: data,
-          );
+        (data) {
+          log('Product loaded successfully');
+          emit(ProductILoaded(productModel: data));
         },
       );
+    } catch (e) {
+      log('Unexpected error: $e');
+      emit(ProductError(errorMessage: 'An unexpected error occurred'));
     }
   }
 }

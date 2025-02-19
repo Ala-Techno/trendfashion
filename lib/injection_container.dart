@@ -1,9 +1,4 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:http/io_client.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:trendfashion/features/Product/data/repository/ProductRepository.dart';
 import 'package:trendfashion/features/Product/presintation/manager/Product_bloc.dart';
@@ -46,7 +41,6 @@ import 'package:get_it/get_it.dart';
 // import 'features/Statistics/presintation/manager/Statistics_bloc.dart';
 // import 'features/Stories/data/repository/StoriesRepository.dart';
 // import 'features/Stories/presintation/manager/Stories_bloc.dart';
-import 'main.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
@@ -138,6 +132,20 @@ void _initRegistration_blocFeature() {
     ),
   );
 }
+
+// void _initIntodaction_blocFeature() {
+// //bloc
+//   sl.registerFactory(() => Registration_bloc(repository: sl()));
+
+//   //repositories
+//   sl.registerLazySingleton<RegistrationRepository>(
+//     () => RegistrationRepository(
+//       remoteDataProvider: sl(),
+//       localDataProvider: sl(),
+//       networkInfo: sl(),
+//     ),
+//   );
+// }
 
 void _initProductDeatils_blocFeature() {
 //bloc

@@ -4,28 +4,55 @@ abstract class RegistrationState extends Equatable {
   const RegistrationState();
 }
 
-class SingupInitial extends RegistrationState {
+class SingUpInitial extends RegistrationState {
   @override
   List<Object> get props => [];
 }
 
-class SingupLoading extends RegistrationState {
+class SingUpLoading extends RegistrationState {
   @override
   List<Object> get props => [];
 }
 
-class SingupLoaded extends RegistrationState {
+class SingUpLoaded extends RegistrationState {
   RegistrationModel registrationModel;
-  SingupLoaded({required this.registrationModel});
+  SingUpLoaded({required this.registrationModel});
 
   @override
   List<Object> get props => [registrationModel];
 }
 
-class SinguponError extends RegistrationState {
+class SingUponError extends RegistrationState {
   String errorMessage;
 
-  SinguponError({required this.errorMessage});
+  SingUponError({required this.errorMessage});
+
+  @override
+  List<Object> get props => [];
+}
+
+class LoginInitial extends RegistrationState {
+  @override
+  List<Object> get props => [];
+}
+
+class LoginLoading extends RegistrationState {
+  @override
+  List<Object> get props => [];
+}
+
+class LoginLoaded extends RegistrationState {
+  RegistrationModel registrationModel;
+  LoginLoaded({required this.registrationModel});
+
+  @override
+  List<Object> get props => [registrationModel];
+}
+
+class LoginonError extends RegistrationState {
+  String errorMessage;
+
+  LoginonError({required this.errorMessage});
 
   @override
   List<Object> get props => [];

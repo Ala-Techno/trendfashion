@@ -8,6 +8,8 @@ class NotAvilable implements Exception {}
 
 class ValidationException implements Exception {}
 
+class InvalidCredentialsFailure implements Exception {}
+
 class ServierExeption implements Exception {}
 
 class BarcodeNotFoundException implements Exception {}
@@ -39,6 +41,12 @@ class AIException implements Exception {}
 class UnexpectedException implements Exception {}
 
 class UnauthenticatedException implements Exception {}
+
+// class UnauthenticatedException implements Exception {
+//   final String message;
+//   UnauthenticatedException(this.message); // Add message parameter
+// }
+
 
 class BlockedException implements Exception {}
 

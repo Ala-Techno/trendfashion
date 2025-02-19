@@ -18,8 +18,8 @@ class RemoteDataProvider {
   }) async {
     log('send data launched');
 
-    log('body is ' + body.toString());
-    log("I am here " + url);
+    log('body is $body');
+    log("I am here $url");
     //  String id = await getDeviceId();
 
     // var encrypter = await generateEncryptedHash(
@@ -32,6 +32,7 @@ class RemoteDataProvider {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer zaCELgL.Omar_abdu-Af50DDqtlx_ibrahem_Ahmed',
         // "X-Encrypted-Hash": encrypter.toString(),
         // "id": id
@@ -39,7 +40,7 @@ class RemoteDataProvider {
     );
 
     log(DataSourceURL.baseUrl + url);
-    log("response.body " + response.body.toString());
+    log("response.body ${response.body}");
     log(response.statusCode.toString());
     // log("returnType " + returnType.toString());
 
@@ -111,9 +112,9 @@ class RemoteDataProvider {
   }) async {
     log('send data launched');
 
-    log('body is ' + body.toString());
-    log("I am here " + url);
-    var request = new http.MultipartRequest("POST", Uri.parse(url));
+    log('body is $body');
+    log("I am here $url");
+    var request = http.MultipartRequest("POST", Uri.parse(url));
     request.files.add(await http.MultipartFile.fromPath('image', body));
     var response = await request.send();
     final resBody = await response.stream.bytesToString();
@@ -157,30 +158,80 @@ class RemoteDataProvider {
     }
   }
 
-  Future<dynamic> sendJsonContent({
+  Future<dynamic> sendJsonData({
     required String url,
-    dynamic body,
+    required Map<String, dynamic> jsonData,
     required retrievedDataType,
     dynamic returnType,
   }) async {
-    var headersList = {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer zaCELgL.Omar_abdu-Af50DDqtlx_ibrahem_Ahmed'
-    };
-    var url = Uri.parse('https://toffan.net/api/form/total_people');
+    log('sendJsonData launched');
+    log('jsonData: ${jsonData.toString()}');
+    log('URL: $url');
 
-    var req = http.Request('POST', url);
-    req.headers.addAll(headersList);
-    req.body = body;
+    final response = await client.post(
+      Uri.parse(DataSourceURL.baseUrl + url),
+      body: json.encode(jsonData), // تحويل البيانات إلى JSON string
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer zaCELgL.Omar_abdu-Af50DDqtlx_ibrahem_Ahmed',
+      },
+    );
 
-    var res = await req.send();
-    final resBody = await res.stream.bytesToString();
+    log('Response status code: ${response.statusCode}');
+    log('Response body: ${response.body}');
 
-    if (res.statusCode >= 200 && res.statusCode < 300) {
-      print(resBody);
-    } else {
-      print(res.reasonPhrase);
+    if (response.statusCode == 200) {
+      log('The Status is 200');
+      if (returnType == List) {
+        final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+        return retrievedDataType.fromJsonList(data);
+      } else if (returnType == int) {
+        return response.body;
+      } else if (returnType == String) {
+        return json.decode(utf8.decode(response.bodyBytes));
+      } else {
+        final dynamic data = json.decode(utf8.decode(response.bodyBytes));
+        if (data is List && data.isEmpty) {
+          throw EmptyException();
+        }
+        return retrievedDataType.fromJson(data);
+      }
+    } else if (response.statusCode == 201) {
+      return 1;
+    } else if (response.statusCode == 416) {
+      throw NoAvailableWorkHoursException();
+    } else if (response.statusCode == 417) {
+      throw VerifyCodeException();
+    } else if (response.statusCode == 401) {
+      log('The error here');
+      throw UnauthenticatedException();
+
+// // Trying accepte the massage form API
+      // //
+      // //else if (response.statusCode == 401) {
+      //   final errorData = json.decode(utf8.decode(response.bodyBytes));
+      //   throw exceptions.UnauthenticatedException(errorData['message']);
+      // }
+    } else if (response.statusCode == 404) {
+      throw NotFoundException();
+    } else if (response.statusCode == 406) {
+      throw InvalidException();
+    } else if (response.statusCode == 410) {
+      throw ExpireException();
+    } else if (response.statusCode == 430) {
+      throw UniqueException();
+    } else if (response.statusCode == 434) {
+      throw UserExistsException();
+    } else if (response.statusCode == 439) {
+      throw BlockedException();
+    } else if (response.statusCode == 433) {
+      throw ReceiveException();
+    } else if (response.statusCode == 500) {
+      throw ServerException();
+    } else if (response.statusCode == 453) {
+      throw BarcodeNotFoundException();
     }
   }
 
@@ -196,7 +247,7 @@ class RemoteDataProvider {
       'Content-Type': 'application/json',
       'Authorization': 'key'
     };
-    var url = Uri.parse('https://toffan.net/api/form/stories/' + id);
+    var url = Uri.parse('https://toffan.net/api/form/stories/$id');
 
     var body = {"id": int.parse(id), "views": 1};
 
@@ -224,7 +275,7 @@ class RemoteDataProvider {
     log('send data launched');
 
     log('body is ');
-    log("I am here " + url);
+    log("I am here $url");
 
     final response = await client.get(
       Uri.parse(DataSourceURL.baseUrl + url),
@@ -242,7 +293,7 @@ class RemoteDataProvider {
     );
 
     log(DataSourceURL.baseUrl + url);
-    log("response.body " + response.body.toString());
+    log("response.body ${response.body}");
     log(response.statusCode.toString());
     // log("returnType " + returnType.toString());
 
@@ -303,48 +354,6 @@ class RemoteDataProvider {
       throw ServerException();
     } else if (response.statusCode == 453) {
       throw BarcodeNotFoundException();
-    }
-  }
-
-  Future<dynamic> sendJasonData({
-    required String url,
-    required Map<String, dynamic> body,
-    required dynamic retrievedDataType,
-    dynamic returnType,
-  }) async {
-    log('sendJasonData initiated');
-    log('Request URL: ${DataSourceURL.baseUrl + url}');
-    log('JSON Payload: ${body.toString()}');
-
-    final response = await client.post(
-      Uri.parse(DataSourceURL.baseUrl + url),
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer zaCELgL.Omar_abdu-Af50DDqtlx_ibrahem_Ahmed',
-      },
-      body: jsonEncode(body),
-    );
-
-    log('Response Status: ${response.statusCode}');
-    log('Response Body: ${response.body}');
-
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      final decodedResponse = jsonDecode(response.body);
-
-      if (decodedResponse is List) {
-        return decodedResponse
-            .map((item) => retrievedDataType.fromJson(item))
-            .toList();
-      }
-
-      // Handle single object responses
-      if (decodedResponse is Map<String, dynamic>) {
-        return retrievedDataType.fromJson(decodedResponse);
-      }
-
-      return decodedResponse;
     }
   }
 }

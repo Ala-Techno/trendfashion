@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
-  Failure([List properties = const <dynamic>[]]);
+  const Failure([List properties = const <dynamic>[]]);
 }
 
 // general failures
@@ -56,13 +56,30 @@ class AiFailure extends Failure {
   List<Object?> get props => [];
 }
 
+// class InvalidCredentialsFailure extends Failure {
+//   final String message;
+
+//   InvalidCredentialsFailure(this.message); // Add constructor
+
+//   @override
+//   List<Object> get props => [message];
+// }
+
+// class UnauthenticatedException extends Failure {
+//   @override
+//   List<Object?> get props => [];
+// }
+
 String mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
     case ServerFailure:
       return 'عذراً لم نتمكن من الاتصال بالخادم';
     case NotFoundFailure:
       return 'لاتوجد أي بيانات في الوقت الحالي!';
-
+    // case InvalidCredentialsFailure:
+    //   return (failure as InvalidCredentialsFailure).message;
+    // case UnauthenticatedException:
+    //   return 'اسممممممممممم المستخدم ي حمود  غلط او كلمة المرور';
     case BlockedUserFailure:
       return 'عذرا ! لقد تم حظر حسابك. يرجى التواصل مع المسؤول لإزالة الحظر';
     case NotAvailableFailure:

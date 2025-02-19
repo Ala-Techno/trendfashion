@@ -1,223 +1,275 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_dialogs/dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:trendfashion/core/ath/auth_form_fields.dart';
+import 'package:trendfashion/core/ath/auth_validators.dart';
 import 'package:trendfashion/core/util/ScreenUtil.dart';
-import 'package:trendfashion/features/Product/presintation/Widget/ProductCard.dart';
-import 'package:trendfashion/features/Product/presintation/page/productsPage.dart';
+import 'package:trendfashion/core/ath/token_storage.dart';
+import 'package:trendfashion/core/widgets/customText.dart';
+import 'package:trendfashion/features/Registration/presintation/page/LoginPage.dart';
 import '../../../../injection_container.dart';
-import '../../../../main.dart';
-
 import '../manager/Registration_bloc.dart';
 
 class SingUpPage extends StatefulWidget {
-  SingUpPage({super.key});
+  const SingUpPage({super.key});
 
   @override
   State<SingUpPage> createState() => _SingUpPageState();
 }
 
 class _SingUpPageState extends State<SingUpPage> {
+  // bool _isLogin = false;
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
+
+  ScreenUtil screenUtil = ScreenUtil();
 
   @override
-  ScrollController _scrollController = ScrollController();
-  List filterList = [
-    {
-      "name": "الدول  المناصرة للقضية",
-      "id": 4,
-    },
-    {
-      "name": "الدول  الداعمة للقضية",
-      "id": 3,
-    },
-    {
-      "name": "الدول الداعمة للاحتلال",
-      "id": 2,
-    },
-    {
-      "name": "الدول المحايدة",
-      "id": 1,
-    },
-  ];
-
-  GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
-
-  int itemisselected = 0;
-  String valueInput = "";
-  Widget ProductWidget = Container();
-  ScreenUtil screenUtil = ScreenUtil();
   Widget build(BuildContext context) {
     screenUtil.init(context);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('SingUp'),
-        centerTitle: true,
-      ),
       body: BlocProvider(
         create: (context) => sl<Registration_bloc>(),
         child: BlocConsumer<Registration_bloc, RegistrationState>(
-          listener: (context, state) {
-            if (state is SinguponError) {
-              Navigator.pop(context); // Dismiss loading
-              QuickAlert.show(
-                context: context,
-                type: QuickAlertType.error,
-                text: state.errorMessage,
-              );
-            }
-
-            if (state is SingupLoading) {
-              QuickAlert.show(
-                context: context,
-                type: QuickAlertType.loading,
-                barrierDismissible: false,
-                text: 'Loading in Progress',
-              );
-            }
-
-            if (state is SingupLoaded) {
-              Navigator.of(context)
-                  .popUntil((route) => route.isFirst); // Clear all dialogs
-              Navigator.pushReplacement(
-                // Use replacement
-                context,
-                MaterialPageRoute(builder: (context) => ProductPage()),
-              );
-            }
-          },
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    // Username Field
-                    TextFormField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a username';
-                        }
-                        if (value.length < 4) {
-                          return 'Username must be at least 4 characters';
-                        }
-                        return null;
-                      },
+            listener: (context, state) {
+          if (state is SingUpLoading) {
+            _showLoadingDialog(context);
+          } else if (state is SingUpLoaded) {
+            // cachedData(key: 'token', data: state.registrationModel.token);
+            _handleSuccessState(context, state);
+          }
+        }, builder: (context, state) {
+          if (state is SingUponError) {
+            _handleErrorState(context, state);
+          }
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: screenUtil.screenHeight, //
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: SvgPicture.asset(
+                      // ← Changed to SVG widget
+                      'assets/images/LoginImage1.svg',
+                      // width: 20,
+                      height: 300,
                     ),
-
-                    const SizedBox(height: 16),
-
-                    // Email Field
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email),
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter an email';
-                        }
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
-                          return 'Please enter a valid email';
-                        }
-                        return null;
-                      },
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: SvgPicture.asset(
+                      'assets/images/LoginImage2.svg',
+                      // width: 20,
+                      height: 250,
                     ),
-
-                    const SizedBox(height: 16),
-
-                    // Password Field
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        prefixIcon: const Icon(Icons.lock),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                  ),
+                  Positioned(
+                    top: 250,
+                    right: 0,
+                    child: SvgPicture.asset(
+                      'assets/images/LoginImage3.svg',
+                      // width: 20,
+                      height: 100,
+                    ),
+                  ),
+                  Positioned(
+                    top:
+                        screenUtil.screenHeight * 0.35, // Start at 40% from top
+                    child: Container(
+                      width: screenUtil.screenWidth,
+                      //  /   height: screenUtil.screenHeight * 0.7, // 70% of screen height
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        // color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomTextTitle1(
+                                customText: 'Sign Up',
+                                customSize: 52,
+                              ),
+                              const SizedBox(height: 20),
+                              _buildUsernameField(),
+                              const SizedBox(height: 20),
+                              _buildEmailField(),
+                              const SizedBox(height: 20),
+                              _buildPasswordField(),
+                              const SizedBox(height: 30),
+                              _buildSubmitButton(context),
+                              InkWell(
+                                onTap: () {
+                                  // Navigate to LoginPage instead of toggling _isLogin
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40, vertical: 10),
+                                  child: const Text(
+                                      'Already have an account? Login'),
+                                ),
+                              ),
+                            ],
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
                         ),
                       ),
-                      obscureText: _obscurePassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a password';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
                     ),
-
-                    const SizedBox(height: 24),
-
-                    // Sign Up Button
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Call your signUp function here
-                          final username = _usernameController.text;
-                          final email = _emailController.text;
-                          final password = _passwordController.text;
-
-                          BlocProvider.of<Registration_bloc>(context).add(
-                              SingUpEvent(
-                                  username: _usernameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text));
-
-                          // Example usage:
-                          // context.read<AuthRepository>().signUp(
-                          //   username: username,
-                          //   email: email,
-                          //   password: password,
-                          // );
-                        }
-                      },
-                      child: const Text('Sign Up'),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
+            ),
+          );
+        }),
+      ),
+    );
+  }
 
-            return ProductWidget;
-          },
+  Widget _buildUsernameField() {
+    return AuthTextField(
+      controller: _usernameController,
+      label: 'Username',
+      hint: 'Enter 4-20 characters',
+      validator: AuthValidators.usernameValidator,
+      prefixIcon: Icons.person_outline,
+      autofillHints: const [AutofillHints.name],
+      textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.name,
+    );
+  }
+
+  Widget _buildEmailField() {
+    return AuthTextField(
+      controller: _emailController,
+      label: 'Email',
+      hint: 'your.email@example.com',
+      validator: AuthValidators.emailValidator,
+      prefixIcon: Icons.email_outlined,
+      autofillHints: const [AutofillHints.email],
+      textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.emailAddress,
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return PasswordField(controller: _passwordController);
+  }
+
+  // Widget _buildPasswordField() {
+  //   return TextFormField(
+  //     controller: _passwordController,
+  //     obscureText: _obscurePassword,
+  //     decoration: InputDecoration(
+  //       labelText: 'Password',
+  //       prefixIcon: const Icon(Icons.lock_outline),
+  //       border: const OutlineInputBorder(),
+  //       hintText: 'At least 8 characters',
+  //       suffixIcon: IconButton(
+  //         icon:
+  //             Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+  //         onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+  //       ),
+  //     ),
+  //     validator: (value) {
+  //       if (value == null || value.isEmpty) return 'Password required';
+  //       if (value.length < 8) return 'Minimum 8 characters';
+  //       if (!RegExp(r'[A-Z]').hasMatch(value))
+  //         return 'Include uppercase letter';
+  //       if (!RegExp(r'[a-z]').hasMatch(value))
+  //         return 'Include lowercase letter';
+  //       if (!RegExp(r'[0-9]').hasMatch(value)) return 'Include number';
+  //       return null;
+  //     },
+  //     autofillHints: const [AutofillHints.newPassword],
+  //     textInputAction: TextInputAction.done,
+  //     onFieldSubmitted: (_) => _submitForm(context),
+  //   );
+  // }
+
+  Widget _buildSubmitButton(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 55),
+        backgroundColor: Colors.blue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 5,
+      ),
+      onPressed: () => _submitForm(context),
+      child: const Text(
+        'Sign Up',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
         ),
       ),
     );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void _submitForm(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<Registration_bloc>(context).add(
+        SingUpEvent(
+          username: _usernameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        ),
+      );
+    }
+  }
+
+  void _handleErrorState(BuildContext context, SingUponError state) {
+    Navigator.of(context, rootNavigator: true).pop();
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Registration Failed',
+      text: state.errorMessage,
+    );
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.loading,
+      text: 'Loading Now 😊',
+    );
+  }
+
+// In _handleSuccessState of SingUpPage
+  Future<void> _handleSuccessState(
+      BuildContext context, SingUpLoaded state) async {
+    try {
+      await TokenStorage.saveToken(state.registrationModel.token);
+      Navigator.pushNamedAndRemoveUntil(context, '/products', (route) => false);
+    } catch (e) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Token Save Failed',
+        text: e.toString(),
+      );
+    }
   }
 
   @override
