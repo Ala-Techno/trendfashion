@@ -8,7 +8,7 @@ class DataSourceURL {
   static String getAllMarkets = 'markets';
   static String getAllHome = 'images';
   // static String getAllProducts = 'brand/detail';
-  static String getAllCategories = 'category';
+  static String Categories = 'Categories';
   static String barcodeCheck = 'form';
   static String CountryBoycott = 'country_status';
   static String getAllCountrys = 'country';
@@ -39,5 +39,6 @@ class DataSourceURL {
   static String sendShare = 'total_people';
   static String countUsers = 'form/total_people/count';
   static String stories = 'form/stories';
-  static String Cursl = 'form/stories'; // Edit to cursl in postman
+  static String featuredProduct = 'products/featured';
+  static String carousel = 'carousel'; // Edit to cursl in postman
 }

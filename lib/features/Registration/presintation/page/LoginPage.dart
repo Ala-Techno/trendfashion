@@ -53,26 +53,28 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildLoginForm(BuildContext context) {
     return SingleChildScrollView(
-      child: SizedBox(
+      child: Container(
+        color: Colors.white,
         height: screenUtil.screenHeight, //
         child: Stack(
           children: [
             Positioned(
               top: 0,
+              right: 0,
+              bottom: 350,
               left: 0,
-              child: SvgPicture.asset(
-                'assets/images/LoginImage1.svg',
-                // width: 20,
-                height: 300,
+              child: Image.asset(
+                'assets/images/Logo_TrendFashion.jpg',
               ),
             ),
             Positioned(
               top: 0,
               left: 0,
               child: SvgPicture.asset(
-                'assets/images/LoginImage2.svg',
+                // ← Changed to SVG widget
+                'assets/images/LoginImage1.svg',
                 // width: 20,
-                height: 250,
+                height: 200,
               ),
             ),
             Positioned(
@@ -223,7 +225,8 @@ class _LoginPageState extends State<LoginPage> {
   void _handleLoginSuccess(BuildContext context, LoginLoaded state) async {
     try {
       await TokenStorage.saveToken(state.registrationModel.token);
-      Navigator.pushNamedAndRemoveUntil(context, '/products', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/categories', (route) => false);
     } catch (e) {
       QuickAlert.show(
         context: context,

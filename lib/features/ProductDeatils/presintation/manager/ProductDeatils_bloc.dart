@@ -12,8 +12,10 @@ part 'ProductDeatils_state.dart';
 class ProductDeatils_bloc
     extends Bloc<ProductDeatilsEvent, ProductDeatilsState> {
   final ProductDeatilsRepository repository;
+
   ProductDeatils_bloc({required this.repository})
       : super(ProductDeatilsInitial());
+
   @override
   Stream<ProductDeatilsState> mapEventToState(
       ProductDeatilsEvent event) async* {

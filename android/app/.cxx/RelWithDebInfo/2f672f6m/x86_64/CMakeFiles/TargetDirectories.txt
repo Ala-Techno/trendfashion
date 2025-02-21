@@ -1,0 +1,2 @@
+C:/trendfashion/android/app/.cxx/RelWithDebInfo/2f672f6m/x86_64/CMakeFiles/edit_cache.dir
+C:/trendfashion/android/app/.cxx/RelWithDebInfo/2f672f6m/x86_64/CMakeFiles/rebuild_cache.dir

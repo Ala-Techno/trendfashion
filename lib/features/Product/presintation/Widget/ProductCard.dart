@@ -31,12 +31,13 @@ class Productcard extends StatelessWidget {
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
               ),
-              child: Image.network(
+              child: Container(
+                  child: Image.network(
                 productModel.image,
                 fit: BoxFit.cover,
                 height: 150,
-                width: 160,
-              ),
+                width: 200,
+              )),
             ),
             Positioned(
               right: 0,

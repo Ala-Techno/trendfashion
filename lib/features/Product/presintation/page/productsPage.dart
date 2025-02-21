@@ -100,8 +100,9 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       itemCount: state.productModel.length,
                       itemBuilder: (context, index) {
-                        return AspectRatio(
-                          aspectRatio: 0.7, // Match childAspectRatio
+                        return Container(
+                          width: 200, // Match ListView item width
+                          margin: EdgeInsets.only(right: 15),
                           child: Productcard(
                             productModel: state.productModel[index],
                           ),

@@ -1,4 +1,5 @@
 import 'package:trendfashion/core/ath/auth_checker.dart';
+import 'package:trendfashion/features/Home/presintation/page/HomePage.dart';
 import 'package:trendfashion/features/Introdaction/pages/firstPage.dart';
 import 'package:trendfashion/features/Product/presintation/page/productsPage.dart';
 import 'package:trendfashion/features/Registration/presintation/page/LoginPage.dart';
@@ -10,6 +11,7 @@ class AppRouter {
   static const String signUp = '/signup';
   static const String login = '/login';
   static const String products = '/products';
+  static const String categories = '/categories';
 
   static final routes = {
     initial: (context) => const AuthChecker(),
@@ -17,5 +19,6 @@ class AppRouter {
     signUp: (context) => const SingUpPage(),
     login: (context) => LoginPage(),
     products: (context) => const ProductPage(),
+    categories: (context) => const HomePage(),
   };
 }

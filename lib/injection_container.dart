@@ -1,5 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:trendfashion/features/Home/data/repository/HomeRepository.dart';
+import 'package:trendfashion/features/Home/presintation/manager/Home_bloc.dart';
 import 'package:trendfashion/features/Product/data/repository/ProductRepository.dart';
 import 'package:trendfashion/features/Product/presintation/manager/Product_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,6 +71,7 @@ Future<void> init() async {
   _initProduct_blocFeature();
   _initProductDeatils_blocFeature();
   _initRegistration_blocFeature();
+  _initCategories_blocFeature();
 
   ///service provider
 
@@ -107,11 +110,11 @@ void _initProduct_blocFeature() {
 
 void _initCategories_blocFeature() {
 //bloc
-  sl.registerFactory(() => Product_bloc(repository: sl()));
+  sl.registerFactory(() => Home_bloc(repository: sl()));
 
   //repositories
-  sl.registerLazySingleton<ProductRepository>(
-    () => ProductRepository(
+  sl.registerLazySingleton<HomeRepository>(
+    () => HomeRepository(
       remoteDataProvider: sl(),
       localDataProvider: sl(),
       networkInfo: sl(),

@@ -49,10 +49,20 @@ class _SingUpPageState extends State<SingUpPage> {
             _handleErrorState(context, state);
           }
           return SingleChildScrollView(
-            child: SizedBox(
-              height: screenUtil.screenHeight, //
+            child: Container(
+              color: Colors.white,
+              height: screenUtil.screenHeight,
               child: Stack(
                 children: [
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    bottom: 350,
+                    left: 0,
+                    child: Image.asset(
+                      'assets/images/Logo_TrendFashion.jpg',
+                    ),
+                  ),
                   Positioned(
                     top: 0,
                     left: 0,
@@ -60,16 +70,7 @@ class _SingUpPageState extends State<SingUpPage> {
                       // ← Changed to SVG widget
                       'assets/images/LoginImage1.svg',
                       // width: 20,
-                      height: 300,
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: SvgPicture.asset(
-                      'assets/images/LoginImage2.svg',
-                      // width: 20,
-                      height: 250,
+                      height: 200,
                     ),
                   ),
                   Positioned(
@@ -261,7 +262,8 @@ class _SingUpPageState extends State<SingUpPage> {
       BuildContext context, SingUpLoaded state) async {
     try {
       await TokenStorage.saveToken(state.registrationModel.token);
-      Navigator.pushNamedAndRemoveUntil(context, '/products', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/categories', (route) => false);
     } catch (e) {
       QuickAlert.show(
         context: context,
