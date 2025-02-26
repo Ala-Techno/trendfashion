@@ -6,7 +6,7 @@ import 'package:trendfashion/features/ProductDeatils/presintation/page/ProductDe
 class Productcard extends StatelessWidget {
   final ProductModel productModel;
 
-  Productcard({Key? key, required this.productModel}) : super(key: key);
+  Productcard({Key? key, required this.productModel, required Null Function() onFavoritePressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

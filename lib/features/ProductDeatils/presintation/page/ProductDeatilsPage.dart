@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:trendfashion/core/util/ScreenUtil.dart';
+
 import '../../../../injection_container.dart';
 import '../manager/ProductDeatils_bloc.dart';
 

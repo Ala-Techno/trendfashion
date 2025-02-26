@@ -1,5 +1,7 @@
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:trendfashion/dataProviders/local_data_provider_hive.dart';
 import 'package:trendfashion/features/Home/data/repository/HomeRepository.dart';
 import 'package:trendfashion/features/Home/presintation/manager/Home_bloc.dart';
 import 'package:trendfashion/features/Product/data/repository/ProductRepository.dart';
@@ -86,9 +88,15 @@ Future<void> init() async {
   sl.registerLazySingleton<LocalDataProvider>(
       () => LocalDataProvider(sharedPreferences: sl()));
 
+  sl.registerLazySingleton<Local_data_provider_hive>(
+      () => Local_data_provider_hive(box: sl()));
+
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
+  var hiveBox = await Hive.openBox('myBox');
+  sl.registerLazySingleton<Box<dynamic>>(() => hiveBox);
 
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnection());

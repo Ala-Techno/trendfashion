@@ -263,7 +263,7 @@ class _SingUpPageState extends State<SingUpPage> {
     try {
       await TokenStorage.saveToken(state.registrationModel.token);
       Navigator.pushNamedAndRemoveUntil(
-          context, '/categories', (route) => false);
+          context, '/products', (route) => false);
     } catch (e) {
       QuickAlert.show(
         context: context,

@@ -16,7 +16,6 @@ class featuredProductEvent extends HomeEvent {
   List<Object> get props => [];
 }
 
-
 class CarouselEvent extends HomeEvent {
   // const GetAllCategories();
   @override

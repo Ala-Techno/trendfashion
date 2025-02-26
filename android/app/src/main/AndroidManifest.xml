@@ -6,7 +6,7 @@
         android:enableOnBackInvokedCallback="true"
         android:label="trendfashion"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:enableOnBackInvokedCallback="true"
             android:name=".MainActivity"

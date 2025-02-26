@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+4
+version: 1.2.2+8
 
 environment:
   sdk: ^3.6.0
@@ -32,6 +32,19 @@ dependencies:
   awesome_dialog: ^3.2.1
   dio: ^5.8.0+1
   carousel_slider: ^5.0.0
+  cached_network_image: ^3.4.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  introduction_screen: ^3.1.17
+  curved_navigation_bar: ^1.0.6
+  google_nav_bar: ^5.0.7
+  get: ^4.7.2
+  hive_generator: ^2.0.0
+  build_runner: ^2.4.6
+  flutter_advanced_drawer: ^1.4.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.5
+  
   
  
 
@@ -39,8 +52,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/Logo_TrendFashion.jpg"
+  min_sdk_android: 21
 
-  flutter_lints: ^5.0.0
+flutter_native_splash:
+  color: "#FFFFFF" 
+  image: "assets/images/splsh_screen.jpg"
+  android_gravity: center
 
 
 flutter:

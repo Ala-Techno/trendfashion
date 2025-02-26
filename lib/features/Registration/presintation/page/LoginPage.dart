@@ -225,8 +225,7 @@ class _LoginPageState extends State<LoginPage> {
   void _handleLoginSuccess(BuildContext context, LoginLoaded state) async {
     try {
       await TokenStorage.saveToken(state.registrationModel.token);
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/categories', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, '/products', (route) => false);
     } catch (e) {
       QuickAlert.show(
         context: context,

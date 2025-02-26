@@ -1,22 +1,48 @@
 class ProductModel {
-  dynamic id, price, image,name, description, category, rating, reviews;
+  dynamic id, price, image, name, description, category, rating, reviews;
 
-  ProductModel({
-    required this.id,
-    required this.price,
-    required this.name,
-    required this.reviews,
-    required this.description,
-    required this.category,
-    required this.rating,
-    required this.image
+  // import 'package:hive/hive.dart';
 
-  });
+// @HiveType(typeId: 0)
+// class ProductModel extends HiveObject {
+//    @HiveField(0)
+//   final String id;
+
+//   @HiveField(1)
+//   final double price;
+
+//   @HiveField(2)
+//   final String name;
+
+//   @HiveField(3)
+//   final String image;
+
+//   @HiveField(4)
+//   final String description;
+
+//   @HiveField(5)
+//   final String category;
+
+//   @HiveField(6)
+//   final double rating;
+
+//   @HiveField(7)
+//   final int reviews;
+
+  ProductModel(
+      {required this.id,
+      required this.price,
+      required this.name,
+      required this.reviews,
+      required this.description,
+      required this.category,
+      required this.rating,
+      required this.image});
 
   factory ProductModel.fromJson(Map<String, dynamic> product) {
     return ProductModel(
       id: product['id'],
-      image:product['image'],
+      image: product['image'],
       reviews: product['reviews'],
       price: product['price'],
       name: product['name'],
@@ -26,21 +52,31 @@ class ProductModel {
     );
   }
 
+  //  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+  //     id: json['id'].toString(),
+  //   price: json['price']?.toDouble() ?? 0.0,
+  //   name: json['name'] ?? '',
+  //   image: json['image'] ?? '',
+  //   description: json['description'] ?? '',
+  //   category: json['category'] ?? '',
+  //   rating: json['rating']?.toDouble() ?? 0.0,
+  //   reviews: json['reviews'] ?? 0,
+  // );
+
   ProductModel fromJson(Map<String, dynamic> json) {
     return ProductModel.fromJson(json);
   }
 
   factory ProductModel.init() {
     return ProductModel(
-      id: '',
-      price: '',
-      name: '',
-      category: '',
-      reviews: '',
-      description: '',
-      rating: '',
-      image: ''
-    );
+        id: '',
+        price: '',
+        name: '',
+        category: '',
+        reviews: '',
+        description: '',
+        rating: '',
+        image: '');
   }
 
   fromJsonList(List<dynamic> jsonList) {
@@ -58,6 +94,6 @@ class ProductModel {
         'reviews': reviews,
         'category': category,
         'description': description,
-        'image':image
+        'image': image
       };
 }

@@ -23,7 +23,7 @@ class AuthChecker extends StatelessWidget {
           });
         } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, AppRouter.firstPage);
+            Navigator.pushReplacementNamed(context, AppRouter.categories);
           });
         }
 
