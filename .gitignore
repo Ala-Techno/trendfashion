@@ -8,6 +8,7 @@
 .pub/
 /build/
 
+
 # Symbolication & Obfuscation
 app.*.symbols
 app.*.map.json
@@ -51,3 +52,4 @@ Thumbs.db
 .svn/
 .swiftpm/
 migrate_working_dir/
+
