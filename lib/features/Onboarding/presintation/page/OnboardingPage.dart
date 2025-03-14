@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:trendfashion/features/Home/presintation/page/HomePage.dart';
+import 'package:trendfashion/core/AppTheme.dart';
+import 'package:trendfashion/core/ath/auth_checker.dart';
+import 'package:trendfashion/features/Onboarding/presintation/data/token_storage_Onboarding.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -14,11 +13,9 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  // @override
-  // final ScrollController _scrollController = ScrollController();
   final _introKey = GlobalKey<IntroductionScreenState>();
 
-  Widget CategoriesWidget = Container();
+  Widget categoriesWidget = Container();
 
   // In _ProductPageState
   @override
@@ -36,12 +33,12 @@ class _OnboardingState extends State<Onboarding> {
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
                 color: Colors.black87,
-                fontFamily: 'Poppins',
+                fontFamily: AppTheme.fontFamily2,
               ),
               bodyTextStyle: TextStyle(
                 fontSize: 18,
                 color: Colors.grey[700],
-                fontFamily: 'Poppins',
+                fontFamily: AppTheme.fontFamily2,
               ),
               imageFlex: 4, // Gives more space to the image
               bodyFlex: 3,
@@ -64,12 +61,12 @@ class _OnboardingState extends State<Onboarding> {
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
                 color: Colors.black87,
-                fontFamily: 'Poppins',
+                fontFamily: AppTheme.fontFamily2,
               ),
               bodyTextStyle: TextStyle(
                 fontSize: 18,
                 color: Colors.grey[700],
-                fontFamily: 'Poppins',
+                fontFamily: AppTheme.fontFamily2,
               ),
               imageFlex: 4, // Gives more space to the image
               bodyFlex: 3,
@@ -92,16 +89,17 @@ class _OnboardingState extends State<Onboarding> {
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
                 color: Colors.black87,
-                fontFamily: 'Poppins',
+                fontFamily: AppTheme.fontFamily2,
               ),
               bodyTextStyle: TextStyle(
                 fontSize: 18,
                 color: Colors.grey[700],
-                fontFamily: 'Poppins',
+                fontFamily: AppTheme.fontFamily2,
               ),
               imageFlex: 4, // Gives more space to the image
               bodyFlex: 3,
-              titlePadding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              titlePadding:
+                  EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 25),
               imagePadding:
                   EdgeInsets.only(top: 40, bottom: 0, left: 30, right: 30),
               pageColor: Colors.white,
@@ -118,50 +116,51 @@ class _OnboardingState extends State<Onboarding> {
           'Skip',
           style: TextStyle(
             color: Colors.grey[600],
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            fontWeight: FontWeight.w900,
           ),
         ),
         next: Icon(
           Icons.arrow_forward_ios,
-          color: Colors.blue,
+          color: AppTheme.primaryColor,
           size: 24,
         ),
         done: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(10),
-          ),
+          // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          // decoration: BoxDecoration(
+          //   color: AppTheme.primaryColor,
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
           child: Text(
             'Start',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+              color: AppTheme.primaryColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
             ),
           ),
         ),
         dotsDecorator: DotsDecorator(
           size: Size(10, 10),
           activeSize: Size(22, 10),
-          activeColor: Colors.blue,
+          activeColor: AppTheme.primaryColor,
           color: Colors.grey[300]!,
           activeShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
         ),
         isProgress: true,
-        safeAreaList: [true, false, false, false],
-        //  isTopSafe: true,
+        //safeAreaList: [true, false, false, false],
         controlsMargin: EdgeInsets.all(16),
         controlsPadding: EdgeInsets.only(bottom: 50),
         curve: Curves.easeInOut,
-        onDone: () {
+        onDone: () async {
+          await OnboardingStorage.markCompleted();
+
           Navigator.of(context).pushReplacement(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
-                  HomePage(),
+                  AuthChecker(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
