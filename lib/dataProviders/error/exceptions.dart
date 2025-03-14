@@ -10,7 +10,7 @@ class ValidationException implements Exception {}
 
 class InvalidCredentialsFailure implements Exception {}
 
-class ServierExeption implements Exception {}
+class ServerException implements Exception {}
 
 class BarcodeNotFoundException implements Exception {}
 
@@ -19,8 +19,6 @@ class BlockedUser implements Exception {}
 class CacheException implements Exception {}
 
 class EmptyException implements Exception {}
-
-class ServerException implements Exception {}
 
 class InvalidException implements Exception {}
 
@@ -40,14 +38,20 @@ class AIException implements Exception {}
 
 class UnexpectedException implements Exception {}
 
-class UnauthenticatedException implements Exception {}
+class UnauthenticatedException implements Exception {
+  // UnauthenticatedException(this.message);
+}
 
-// class UnauthenticatedException implements Exception {
-//   final String message;
-//   UnauthenticatedException(this.message); // Add message parameter
-// }
+class UnauthenticatedExceptionUserNameOrPassword implements Exception {
+  final String message;
 
+  UnauthenticatedExceptionUserNameOrPassword({required this.message});
+}
+class UnauthenticatedExceptionEmailOrUserName implements Exception {
+  final String message;
 
+  UnauthenticatedExceptionEmailOrUserName({required this.message});
+}
 class BlockedException implements Exception {}
 
 class NoAvailableWorkHoursException implements Exception {}
