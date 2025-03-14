@@ -201,33 +201,37 @@ class RemoteDataProvider {
     } else if (response.statusCode == 201) {
       return 1;
     } else if (response.statusCode == 416) {
-      throw NoAvailableWorkHoursException();
+      throw NoAvailableWorkHoursException(); // Not in Repo
     } else if (response.statusCode == 417) {
-      throw VerifyCodeException();
-    } else if (response.statusCode == 401) {
-      log('The error here');
-      throw UnauthenticatedException();
+      throw VerifyCodeException(); // Not in Repo
+    } else if (response.statusCode == 400) {
+      final errorData = json.decode(utf8.decode(response.bodyBytes));
 
-// // Trying accepte the massage form API
-      // //
-      // //else if (response.statusCode == 401) {
-      //   final errorData = json.decode(utf8.decode(response.bodyBytes));
-      //   throw exceptions.UnauthenticatedException(errorData['message']);
-      // }
+      // Handle different API response structures
+      final messageFromAPI =
+          errorData['message'] ?? errorData['error'] ?? 'Authentication failed';
+      throw UnauthenticatedExceptionEmailOrUserName(message: messageFromAPI);
+    } else if (response.statusCode == 401) {
+      final errorData = json.decode(utf8.decode(response.bodyBytes));
+
+      // Handle different API response structures
+      final messageFromAPI =
+          errorData['message'] ?? errorData['error'] ?? 'Authentication failed';
+      throw UnauthenticatedExceptionUserNameOrPassword(message: messageFromAPI);
     } else if (response.statusCode == 404) {
       throw NotFoundException();
     } else if (response.statusCode == 406) {
-      throw InvalidException();
+      throw InvalidException(); // Not in Repo
     } else if (response.statusCode == 410) {
-      throw ExpireException();
+      throw ExpireException(); // Not in Repo
     } else if (response.statusCode == 430) {
-      throw UniqueException();
+      throw UniqueException(); // Not in Repo
     } else if (response.statusCode == 434) {
-      throw UserExistsException();
+      throw UserExistsException(); // Not in Repo
     } else if (response.statusCode == 439) {
-      throw BlockedException();
+      throw BlockedException(); // Not in Repo
     } else if (response.statusCode == 433) {
-      throw ReceiveException();
+      throw ReceiveException(); // Not in Repo
     } else if (response.statusCode == 500) {
       throw ServerException();
     } else if (response.statusCode == 453) {

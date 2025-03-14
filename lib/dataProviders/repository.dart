@@ -17,15 +17,20 @@ class Repository {
     if (await checkConnection!) {
       log('check connection ');
       try {
-        log('try from repositories');
-
         final remoteData = await remoteFunction!();
-        log('theeeeeeeee data from repositories is $remoteData');
+        log('the data is from repositories is $remoteData');
         return Right(remoteData);
-      } on ServierExeption {
+      } on ServerException {
         return Left(ServerFailure());
+      } on UnauthenticatedException {
+        return Left(UnauthenticatedFailure());
+      } on UnauthenticatedExceptionUserNameOrPassword catch (e) {
+        return Left(
+            UnauthenticatedExceptionUserNameOrPasswordFailure(e.message));
+      } on UnauthenticatedExceptionEmailOrUserName catch (e) {
+        return Left(UnauthenticatedExceptionEmailOrUserNameFailure(e.message));
       } on NotFound {
-        return Left(NotFounFailure());
+        return Left(NotFoundFailure());
       } on BlockedUser {
         return Left(BlockedUserFailure());
       } on BarcodeNotFoundException {
