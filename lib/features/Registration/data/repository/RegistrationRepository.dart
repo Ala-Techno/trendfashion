@@ -19,42 +19,44 @@ class RegistrationRepository extends Repository {
   Future<Either<Failure, dynamic>> singUp(
       String username, String email, String password) async {
     return await sendRequest(
-        checkConnection: networkInfo.isConnected,
-        remoteFunction: () async {
-          RegistrationModel remoteData = await remoteDataProvider.sendJsonData(
-            url: DataSourceURL.signup,
-            returnType: RegistrationModel.init(),
-            retrievedDataType: RegistrationModel.init(),
-            jsonData: {
-              'username': username,
-              'email': email,
-              'password': password,
-            },
-          );
+      checkConnection: networkInfo.isConnected,
+      remoteFunction: () async {
+        RegistrationModel remoteData = await remoteDataProvider.sendJsonData(
+          url: DataSourceURL.signup,
+          returnType: RegistrationModel.init(),
+          retrievedDataType: RegistrationModel.init(),
+          jsonData: {
+            'username': username,
+            'email': email,
+            'password': password,
+          },
+        );
 
-          return remoteData;
-        },
-        getCacheDataFunction: () async {});
+        return remoteData;
+      },
+      // getCacheDataFunction: () async {}
+    );
   }
 
   Future<Either<Failure, dynamic>> login(
       String username, String password) async {
     return await sendRequest(
-        checkConnection: networkInfo.isConnected,
-        remoteFunction: () async {
-          RegistrationModel remoteData = await remoteDataProvider.sendJsonData(
-            url: DataSourceURL.login,
-            returnType: RegistrationModel.init(),
-            retrievedDataType: RegistrationModel.init(),
-            jsonData: {
-              'username': username,
-              'password': password,
-            },
-          );
+      checkConnection: networkInfo.isConnected,
+      remoteFunction: () async {
+        RegistrationModel remoteData = await remoteDataProvider.sendJsonData(
+          url: DataSourceURL.login,
+          returnType: RegistrationModel.init(),
+          retrievedDataType: RegistrationModel.init(),
+          jsonData: {
+            'username': username,
+            'password': password,
+          },
+        );
 
-          return remoteData;
-        },
-        getCacheDataFunction: () async {});
+        return remoteData;
+      },
+      //  getCacheDataFunction: () async {}
+    );
   }
 }
 
