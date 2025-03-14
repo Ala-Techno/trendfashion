@@ -1,5 +1,9 @@
 class AuthValidators {
-  static final usernameRegExp = RegExp(r'^[\p{L}0-9_]+$', unicode: true);
+  // r'^[\p{Script=Arabic}0-9_\s]+$', For supporting Only Arabic words
+  static final usernameRegExp = RegExp(
+    r'^[a-zA-Z\p{Script=Arabic}0-9_\s]+$', // Allows Arabic, Latin (English), numbers, _, and spaces
+    unicode: true, // Required for Unicode scripts
+  );
   static final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
   static String? usernameValidator(String? value) {
