@@ -12,6 +12,7 @@ class AuthTextField extends StatelessWidget {
   final TextInputAction textInputAction;
   final VoidCallback? onSubmitted;
   final Widget? suffixIcon;
+  final FocusNode? focusNode;
 
   const AuthTextField(
       {super.key,
@@ -25,7 +26,8 @@ class AuthTextField extends StatelessWidget {
       this.autofillHints = const [],
       this.textInputAction = TextInputAction.next,
       this.onSubmitted,
-      this.suffixIcon});
+      this.suffixIcon,
+      required this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +45,21 @@ class AuthTextField extends StatelessWidget {
           border: const OutlineInputBorder(),
           hintText: hint,
           suffixIcon: suffixIcon),
+      focusNode: focusNode,
     );
   }
 }
 
 class PasswordField extends StatefulWidget {
   final TextEditingController controller;
+  final FocusNode? passwordFocusNode;
   final VoidCallback? onSubmitted;
 
   const PasswordField({
     super.key,
     required this.controller,
     this.onSubmitted,
+    required this.passwordFocusNode,
   });
 
   @override
@@ -80,6 +85,7 @@ class _PasswordFieldState extends State<PasswordField> {
         icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
         onPressed: () => setState(() => _obscureText = !_obscureText),
       ),
+      focusNode: widget.passwordFocusNode,
     );
   }
 
