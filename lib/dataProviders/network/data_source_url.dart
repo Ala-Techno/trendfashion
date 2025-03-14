@@ -6,9 +6,9 @@ class DataSourceURL {
   static String getAllBrands = 'brand';
   static String getAllproducts = 'products';
   static String getAllMarkets = 'markets';
-  static String getAllHome = 'images';
+  static String getAllcategories = 'images';
   // static String getAllProducts = 'brand/detail';
-  static String Categories = 'Categories';
+  static String categories = 'categories';
   static String barcodeCheck = 'form';
   static String CountryBoycott = 'country_status';
   static String getAllCountrys = 'country';
