@@ -1,8 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:trendfashion/core/AppTheme.dart';
 import 'package:trendfashion/core/ath/auth_form_fields.dart';
 import 'package:trendfashion/core/ath/auth_validators.dart';
 import 'package:trendfashion/core/util/ScreenUtil.dart';
@@ -27,6 +29,11 @@ class _SingUpPageState extends State<SingUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  // Focus Nodes
+  final FocusNode _userName = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
   ScreenUtil screenUtil = ScreenUtil();
 
   @override
@@ -34,6 +41,7 @@ class _SingUpPageState extends State<SingUpPage> {
     screenUtil.init(context);
 
     return Scaffold(
+      backgroundColor: AppTheme.scaffoldBackgroundColor,
       body: BlocProvider(
         create: (context) => sl<Registration_bloc>(),
         child: BlocConsumer<Registration_bloc, RegistrationState>(
@@ -43,100 +51,94 @@ class _SingUpPageState extends State<SingUpPage> {
           } else if (state is SingUpLoaded) {
             // cachedData(key: 'token', data: state.registrationModel.token);
             _handleSuccessState(context, state);
-          }
-        }, builder: (context, state) {
-          if (state is SingUponError) {
+          } else if (state is SingUponError) {
             _handleErrorState(context, state);
           }
-          return SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              height: screenUtil.screenHeight,
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    bottom: 350,
-                    left: 0,
-                    child: Image.asset(
-                      'assets/images/Logo_TrendFashion.jpg',
-                    ),
+        }, builder: (context, state) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: SvgPicture.asset(
+                    // ← Changed to SVG widget
+                    'assets/images/LoginImage1.svg',
+                    // width: 20,
+                    height: 290,
                   ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: SvgPicture.asset(
-                      // ← Changed to SVG widget
-                      'assets/images/LoginImage1.svg',
-                      // width: 20,
-                      height: 200,
-                    ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: SvgPicture.asset(
+                    // ← Changed to SVG widget
+                    'assets/images/LoginImage2.svg',
+                    // width: 20,
+                    height: 240,
                   ),
-                  Positioned(
-                    top: 250,
-                    right: 0,
-                    child: SvgPicture.asset(
-                      'assets/images/LoginImage3.svg',
-                      // width: 20,
-                      height: 100,
-                    ),
+                ),
+                Positioned(
+                  top: 250,
+                  right: 0,
+                  child: SvgPicture.asset(
+                    'assets/images/LoginImage3.svg',
+                    // width: 20,
+                    height: 100,
                   ),
-                  Positioned(
-                    top:
-                        screenUtil.screenHeight * 0.35, // Start at 40% from top
-                    child: Container(
-                      width: screenUtil.screenWidth,
-                      //  /   height: screenUtil.screenHeight * 0.7, // 70% of screen height
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        // color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomTextTitle1(
-                                customText: 'Sign Up',
-                                customSize: 52,
-                              ),
-                              const SizedBox(height: 20),
-                              _buildUsernameField(),
-                              const SizedBox(height: 20),
-                              _buildEmailField(),
-                              const SizedBox(height: 20),
-                              _buildPasswordField(),
-                              const SizedBox(height: 30),
-                              _buildSubmitButton(context),
-                              InkWell(
-                                onTap: () {
-                                  // Navigate to LoginPage instead of toggling _isLogin
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 10),
-                                  child: const Text(
-                                      'Already have an account? Login'),
-                                ),
-                              ),
-                            ],
+                ),
+                SingleChildScrollView(
+                  child: Container(
+                    margin:
+                        EdgeInsets.only(top: screenUtil.screenHeight * 0.34),
+                    padding: const EdgeInsets.only(
+                        top: 24, left: 24, right: 24, bottom: 0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: CustomTextTitle1(
+                              customText: 'Sign Up',
+                              customSize: 52,
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 20),
+                          _buildUsernameField(),
+                          const SizedBox(height: 20),
+                          _buildEmailField(),
+                          const SizedBox(height: 20),
+                          _buildPasswordField(),
+                          const SizedBox(height: 30),
+                          _buildSubmitButton(context),
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 50),
+                            child: InkWell(
+                              onTap: () {
+                                // Navigate to LoginPage instead of toggling _isLogin
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Already have an account? Login',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }),
@@ -154,6 +156,7 @@ class _SingUpPageState extends State<SingUpPage> {
       autofillHints: const [AutofillHints.name],
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.name,
+      focusNode: _userName,
     );
   }
 
@@ -167,11 +170,15 @@ class _SingUpPageState extends State<SingUpPage> {
       autofillHints: const [AutofillHints.email],
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
+      focusNode: _emailFocusNode,
     );
   }
 
   Widget _buildPasswordField() {
-    return PasswordField(controller: _passwordController);
+    return PasswordField(
+      controller: _passwordController,
+      passwordFocusNode: _passwordFocusNode,
+    );
   }
 
   // Widget _buildPasswordField() {
@@ -209,11 +216,11 @@ class _SingUpPageState extends State<SingUpPage> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 55),
-        backgroundColor: Colors.blue,
+        backgroundColor: AppTheme.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        elevation: 5,
+        elevation: 3,
       ),
       onPressed: () => _submitForm(context),
       child: const Text(
@@ -241,20 +248,42 @@ class _SingUpPageState extends State<SingUpPage> {
 
   void _handleErrorState(BuildContext context, SingUponError state) {
     Navigator.of(context, rootNavigator: true).pop();
-    QuickAlert.show(
+
+    AwesomeDialog(
       context: context,
-      type: QuickAlertType.error,
+      dialogType: DialogType.error,
+      animType: AnimType.scale,
       title: 'Registration Failed',
-      text: state.errorMessage,
-    );
+      desc: state.errorMessage,
+      dismissOnTouchOutside: true, // Block taps outside (correct param name)
+      dismissOnBackKeyPress: true, // Allow back button to close dialog
+      btnOk: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red[400], //
+        ),
+        onPressed: () {
+          Navigator.pop(context); // Close  error dialog
+          FocusScope.of(context)
+              .requestFocus(_userName); // or _passwordFocusNode
+        },
+        child: const Text(
+          'Retry',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+    ).show();
   }
 
   void _showLoadingDialog(BuildContext context) {
-    QuickAlert.show(
+    AwesomeDialog(
       context: context,
-      type: QuickAlertType.loading,
-      text: 'Loading Now 😊',
-    );
+      dialogType: DialogType.info,
+      animType: AnimType.scale,
+      title: 'Loading...',
+      desc: 'Please wait 😊',
+      dismissOnTouchOutside: false, // Block taps outside (correct param name)
+      dismissOnBackKeyPress: false, // Block back button (correct param name)
+    ).show();
   }
 
 // In _handleSuccessState of SingUpPage
@@ -263,7 +292,7 @@ class _SingUpPageState extends State<SingUpPage> {
     try {
       await TokenStorage.saveToken(state.registrationModel.token);
       Navigator.pushNamedAndRemoveUntil(
-          context, '/products', (route) => false);
+          context, '/categories', (route) => false);
     } catch (e) {
       QuickAlert.show(
         context: context,
@@ -279,6 +308,11 @@ class _SingUpPageState extends State<SingUpPage> {
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+
+    // Dispose Focus Nodes
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+
     super.dispose();
   }
 }
