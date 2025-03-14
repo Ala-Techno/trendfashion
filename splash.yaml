@@ -1,0 +1,75 @@
+flutter_native_splash:
+
+  android: true
+  ios: true
+  web: false
+
+  fullscreen: true
+  android_gravity: center
+ 
+
+ #background_image: "assets/background.png"
+  color: "#FFFFFF"
+  image: assets/images/Splash.png
+  branding: assets/images/BrandFashion.png
+ 
+  branding_mode: bottom
+  branding_bottom_padding: 24
+
+  image_dark: assets/images/DarkSplash.png
+  color_dark: "#4b6773"
+  branding_dark: assets/images/DarkBranding.png
+  #branding_dark: assets/dart_dark.png
+
+
+
+  android_12:
+ 
+    image: assets/images/Splash.png
+    color: "#FFFFFF"
+    branding: assets/images/BrandFashion.png
+     #icon_background_color: "#111111"
+
+    image_dark: assets/images/DarkSplash.png
+    color_dark: "#4b6773"
+    branding_dark: assets/images/DarkBranding.png
+    #icon_background_color_dark: "#eeeeee"
+
+
+
+
+  # Platform specific images can be specified with the following parameters, which will override
+  # the respective parameter.  You may specify all, selected, or none of these parameters:
+  #color_android: "#42a5f5"
+  #color_dark_android: "#042a49"
+  #color_ios: "#42a5f5"
+  #color_dark_ios: "#042a49"
+  #color_web: "#42a5f5"
+  #color_dark_web: "#042a49"
+  #image_android: assets/splash-android.png
+  #image_dark_android: assets/splash-invert-android.png
+  #image_ios: assets/splash-ios.png
+  #image_dark_ios: assets/splash-invert-ios.png
+  #image_web: assets/splash-web.gif
+  #image_dark_web: assets/splash-invert-web.gif
+  #background_image_android: "assets/background-android.png"
+  #background_image_dark_android: "assets/dark-background-android.png"
+  #background_image_ios: "assets/background-ios.png"
+  #background_image_dark_ios: "assets/dark-background-ios.png"
+  #background_image_web: "assets/background-web.png"
+  #background_image_dark_web: "assets/dark-background-web.png"
+
+  #branding_android: assets/brand-android.png
+  #branding_bottom_padding_android: 24
+  #branding_ios: assets/brand-ios.png
+  #branding_bottom_padding_ios: 24
+  #branding_dark_ios: assets/dart_dark-ios.png
+  #branding_web: assets/brand-web.gif
+  #branding_dark_web: assets/dart_dark-web.gif
+
+
+  #ios_content_mode: center
+  #android_screen_orientation: sensorLandscape
+  #info_plist_files:
+  #  - 'ios/Runner/Info-Debug.plist'
+  #  - 'ios/Runner/Info-Release.plist'
